@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import ScrollToTop from './ScrollToTop';
-import Login from './Login';
+import Login from './login';
 import './App.css';
 
 // --- 1. COMPONENTE DE LA PÁGINA PRINCIPAL ---
