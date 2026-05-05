@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from '
 import ScrollToTop from './ScrollToTop';
 import Login from './login';
 import './App.css';
+import { Analytics } from "@vercel/analytics/react"
 
 // --- 1. COMPONENTE DE LA PÁGINA PRINCIPAL ---
 const Home = ({ productos, onAddToCart }) => {
@@ -137,7 +138,7 @@ const Header = ({ cartCount, onCartOpen, token, onLogout }) => {
       </button>
 
       <h1 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-        Bound
+        Boundz
       </h1>
 
       <button className="cart-icon-btn" onClick={onCartOpen}>
@@ -223,6 +224,8 @@ function App() {
             onClose={() => setCartOpen(false)}
           />
         )}
+        <Analytics />
+        
       </div>
     </Router>
   );
