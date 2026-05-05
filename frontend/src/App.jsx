@@ -157,7 +157,7 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/productos')
+    fetch('clothing-brand-production-ff3f.up.railway.app')
       .then((res) => {
         if (!res.ok) throw new Error('Server error');
         return res.json();
