@@ -15,8 +15,8 @@ const Login = ({ onLogin }) => {
     setLoading(true);
 
     const endpoint = isRegister
-      ? 'clothing-brand-production-ff3f.up.railway.app'
-      : 'clothing-brand-production-ff3f.up.railway.app';
+      ? 'https://clothing-brand-production-ff3f.up.railway.app/api/auth/register'
+      : 'https://clothing-brand-production-ff3f.up.railway.app/api/auth/login';
 
     try {
       const res = await fetch(endpoint, {
