@@ -56,7 +56,7 @@ const Login = ({ onLogin }) => {
     <div className="login-page">
       <div className="login-left">
         <div className="login-brand" onClick={() => navigate('/')}>
-          BOND
+          BOUND
         </div>
         <p className="login-tagline">Wear nothing. Wear everything.</p>
       </div>
