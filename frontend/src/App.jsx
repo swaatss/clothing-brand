@@ -5,7 +5,9 @@ import Login from './login';
 import './App.css';
 import { Analytics } from "@vercel/analytics/react"
 
-// --- 1. COMPONENTE DE LA PÁGINA PRINCIPAL ---
+const BACKEND = 'https://clothing-brand-production-ff3f.up.railway.app'
+
+// --- 1. HOME ---
 const Home = ({ productos, onAddToCart }) => {
   const navigate = useNavigate();
   return (
@@ -23,7 +25,7 @@ const Home = ({ productos, onAddToCart }) => {
   );
 };
 
-// --- 2. COMPONENTE DE DETALLE ---
+// --- 2. DETALLE ---
 const ProductDetail = ({ productos, onAddToCart }) => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -57,28 +59,18 @@ const ProductDetail = ({ productos, onAddToCart }) => {
         <div className="detalle-info">
           <h1>{producto.nombre}</h1>
           <p className="detalle-precio">${producto.precio.toFixed(2)}</p>
-
-          {/* Color now comes from product data */}
           {producto.color && (
             <p className="detalle-color-label">Color: {producto.color}</p>
           )}
-
-          {/* Sizes now come from product data */}
-          <select
-            className="size-select"
-            value={selectedSize}
-            onChange={(e) => setSelectedSize(e.target.value)}
-          >
+          <select className="size-select" value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)}>
             <option value="">Select size</option>
             {(producto.sizes || ['S', 'M', 'L', 'XL']).map((s) => (
               <option key={s} value={s}>{s}</option>
             ))}
           </select>
-
           <button className={`add-bag-btn ${added ? 'added' : ''}`} onClick={handleAddToBag}>
             {added ? '✓ ADDED TO BAG' : 'ADD TO SHOPPING BAG'}
           </button>
-
           <div className="detalle-extra-info">
             <p>Find in store</p>
             <p>{producto.descripcion || 'Product details'}</p>
@@ -128,7 +120,7 @@ const Cart = ({ cart, onRemove, onClose }) => {
   );
 };
 
-// --- 4. HEADER con navigate en lugar de window.location.href ---
+// --- 4. HEADER ---
 const Header = ({ cartCount, onCartOpen, token, onLogout }) => {
   const navigate = useNavigate();
   return (
@@ -136,19 +128,17 @@ const Header = ({ cartCount, onCartOpen, token, onLogout }) => {
       <button className="cart-icon-btn" onClick={token ? onLogout : () => navigate('/login')}>
         {token ? 'SIGN OUT' : 'SIGN IN'}
       </button>
-
       <h1 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
         Boundz
       </h1>
-
       <button className="cart-icon-btn" onClick={onCartOpen}>
         BAG {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
       </button>
     </header>
   );
 };
-  
-// --- 5. FUNCIÓN PRINCIPAL ---
+
+// --- 5. APP PRINCIPAL ---
 function App() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -157,8 +147,9 @@ function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [token, setToken] = useState(localStorage.getItem('token'));
 
+  // Carga productos
   useEffect(() => {
-    fetch('https://clothing-brand-production-ff3f.up.railway.app/api/productos')
+    fetch(`${BACKEND}/api/productos`)
       .then((res) => {
         if (!res.ok) throw new Error('Server error');
         return res.json();
@@ -169,30 +160,66 @@ function App() {
       })
       .catch((err) => {
         console.error('Error:', err);
-        setError('Could not connect to the server. Please make sure the backend is running.');
+        setError(true);
         setLoading(false);
       });
   }, []);
 
+  // Carga carrito cuando el usuario inicia sesión
+  useEffect(() => {
+    if (token) {
+      fetch(`${BACKEND}/api/carrito`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+        .then(res => res.json())
+        .then(data => setCart(data))
+        .catch(err => console.error(err))
+    } else {
+      setCart([])
+    }
+  }, [token])
+
+  // Guarda carrito en MongoDB
+  const guardarCarrito = async (nuevoCart) => {
+    if (!token) return
+    await fetch(`${BACKEND}/api/carrito`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ items: nuevoCart })
+    })
+  }
+
   const handleAddToCart = (product) => {
-    setCart((prev) => [...prev, product]);
+    const nuevoCart = [...cart, product];
+    setCart(nuevoCart);
+    guardarCarrito(nuevoCart);
   };
 
   const handleRemoveFromCart = (index) => {
-    setCart((prev) => prev.filter((_, i) => i !== index));
+    const nuevoCart = cart.filter((_, i) => i !== index);
+    setCart(nuevoCart);
+    guardarCarrito(nuevoCart);
   };
+
   const handleLogout = () => {
-  localStorage.removeItem('token');
-  setToken(null);
-};
+    localStorage.removeItem('token');
+    setToken(null);
+  };
+
+  const handleLogin = (newToken) => {
+    localStorage.setItem('token', newToken);
+    setToken(newToken);
+  };
 
   return (
     <Router>
       <ScrollToTop />
       <div className="container">
-       <Header cartCount={cart.length} onCartOpen={() => setCartOpen(true)} token={token} onLogout={handleLogout} />
+        <Header cartCount={cart.length} onCartOpen={() => setCartOpen(true)} token={token} onLogout={handleLogout} />
 
-        {/* Loading state */}
         {loading && (
           <div className="status-screen">
             <div className="loader"></div>
@@ -200,32 +227,24 @@ function App() {
           </div>
         )}
 
-        {/* Error state */}
         {!loading && error && (
           <div className="status-screen error">
-           <p>SERVER IS DOWN</p>
+            <p>SERVER IS DOWN</p>
           </div>
         )}
 
-        {/* Normal app routes */}
         {!loading && !error && (
           <Routes>
             <Route path="/" element={<Home productos={productos} onAddToCart={handleAddToCart} />} />
             <Route path="/product/:id" element={<ProductDetail productos={productos} onAddToCart={handleAddToCart} />} />
-            <Route path="/login" element={<Login onLogin={setToken} />} />
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
           </Routes>
         )}
 
-        {/* Cart drawer */}
         {cartOpen && (
-          <Cart
-            cart={cart}
-            onRemove={handleRemoveFromCart}
-            onClose={() => setCartOpen(false)}
-          />
+          <Cart cart={cart} onRemove={handleRemoveFromCart} onClose={() => setCartOpen(false)} />
         )}
         <Analytics />
-        
       </div>
     </Router>
   );
