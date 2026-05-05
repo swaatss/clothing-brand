@@ -137,7 +137,7 @@ const Header = ({ cartCount, onCartOpen, token, onLogout }) => {
       </button>
 
       <h1 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-        No name Clothing brand
+        Bond
       </h1>
 
       <button className="cart-icon-btn" onClick={onCartOpen}>
