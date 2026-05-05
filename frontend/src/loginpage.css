@@ -5,6 +5,9 @@
   min-height: 100vh;
   background-color: #000;
   color: white;
+  .login-brand {
+  font-size: clamp(4rem, 8vw, 8rem);
+}
 }
 
 /* ── LEFT PANEL ── */

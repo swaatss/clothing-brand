@@ -9,14 +9,13 @@ const Login = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const handleSubmit = async () => {
     setError('');
     setLoading(true);
 
     const endpoint = isRegister
       ? 'https://clothing-brand-production-ff3f.up.railway.app/api/auth/register'
-      : 'https://clothing-brand-production-ff3f.up.railway.app/api/auth/login';
+      : 'clothing-brand-production-ff3f.up.railway.app';
 
     try {
       const res = await fetch(endpoint, {
@@ -57,7 +56,7 @@ const Login = ({ onLogin }) => {
     <div className="login-page">
       <div className="login-left">
         <div className="login-brand" onClick={() => navigate('/')}>
-          NO NAME CLOTHING BRAND
+          BOND
         </div>
         <p className="login-tagline">Wear nothing. Wear everything.</p>
       </div>
