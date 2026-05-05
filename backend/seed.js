@@ -9,7 +9,7 @@ const productos = [
     color: "Asphalt Gray",
     sizes: ["S", "M", "L", "XL"],
     descripcion: "Relaxed fit with stacking length.",
-    imagen: "http://localhost:5000/images/stacking baggy jeans.jpg"
+    imagen: "https://clothing-brand-production-ff3f.up.railway.app/images/stacking baggy jeans.jpg"
   },
   {
     nombre: "Baggy Jeans",
@@ -17,7 +17,7 @@ const productos = [
     color: "Light Wash",
     sizes: ["S", "M", "L", "XL"],
     descripcion: "Classic wide-leg silhouette.",
-    imagen: "http://localhost:5000/images/baggy jeans.jpg"
+    imagen: "https://clothing-brand-production-ff3f.up.railway.app/images/baggy jeans.jpg"
   },
   {
     nombre: "Black Baggy Jeans",
@@ -25,7 +25,7 @@ const productos = [
     color: "Black",
     sizes: ["S", "M", "L", "XL"],
     descripcion: "All-black heavyweight denim.",
-    imagen: "http://localhost:5000/images/black baggy jeans.jpg"
+    imagen: "https://clothing-brand-production-ff3f.up.railway.app/images/black baggy jeans.jpg"
   },
   {
     nombre: "Cammo Baggy Jeans",
@@ -33,7 +33,7 @@ const productos = [
     color: "Camo Green",
     sizes: ["M", "L", "XL"],
     descripcion: "Military-inspired camo print.",
-    imagen: "http://localhost:5000/images/camo baggy pants.jpg"
+    imagen: "https://clothing-brand-production-ff3f.up.railway.app/images/camo baggy pants.jpg"
   },
   {
     nombre: "Darkblue Baggy Jeans",
@@ -41,7 +41,7 @@ const productos = [
     color: "Dark Indigo",
     sizes: ["S", "M", "L", "XL"],
     descripcion: "Deep indigo wash.",
-    imagen: "http://localhost:5000/images/darkblue baggy jeans.jpg"
+    imagen: "https://clothing-brand-production-ff3f.up.railway.app/images/darkblue baggy jeans.jpg"
   },
   {
     nombre: "Baggy Cargo",
@@ -49,7 +49,7 @@ const productos = [
     color: "Olive",
     sizes: ["S", "M", "L", "XL", "XXL"],
     descripcion: "Utility pockets with relaxed drape.",
-    imagen: "http://localhost:5000/images/baggy cargo.jpg"
+    imagen: "https://clothing-brand-production-ff3f.up.railway.app/images/baggy cargo.jpg"
   },
 ]
 
