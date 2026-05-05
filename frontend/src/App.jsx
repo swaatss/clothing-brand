@@ -202,7 +202,7 @@ function App() {
         {/* Error state */}
         {!loading && error && (
           <div className="status-screen error">
-            <p>⚠ {error}</p>
+           <p>SERVER IS DOWN</p>
           </div>
         )}
 
