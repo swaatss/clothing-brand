@@ -3,7 +3,7 @@ require('./db')
 
 const express = require('express')
 const cors = require('cors')
-const { verificarToken, soloAdmin } = require('./middleware/auth')
+const { verificarToken, soloAdmin } = require('./Middleware/auth')
 const Producto = require('./models/Producto')
 
 const app = express()
