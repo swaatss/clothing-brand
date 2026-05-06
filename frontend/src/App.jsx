@@ -129,7 +129,7 @@ const Header = ({ cartCount, onCartOpen, token, onLogout }) => {
         {token ? 'SIGN OUT' : 'SIGN IN'}
       </button>
       <h1 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-        Boundz
+        Bound
       </h1>
       <button className="cart-icon-btn" onClick={onCartOpen}>
         BAG {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
